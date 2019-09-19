@@ -4,7 +4,7 @@ import ScheduleActions from '../redux/UserRedux'
 
 // process STARTUP actions
 export function * startup (action) {
-  yield put(UserRedux.getUser(/* here the user and password should be passed */))
+  yield put(UserRedux.getUser(/* here the user and password should be passed as an object */))
   /* ********************************************************
   * Readonly API Calls are better handled through code push *
   * *********************************************************/

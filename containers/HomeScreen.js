@@ -15,6 +15,7 @@ import { MonoText } from '../components/StyledText';
 import { Button, Input, Icon   } from 'react-native-elements';
 import { connect } from 'react-redux'
 import DummyActions from '../redux/DummyRedux'
+import GradesActions from '../redux/GradesRedux'
 
 import {
   merge,
@@ -30,10 +31,10 @@ export class HomeScreen extends Component{
   constructor (props) {
     super(props)
 
-    const { currentNumber } = props
+    const { currentNumber, user } = props
     const appState = AppState.currentState
     var numbers = {intA:0 , intB:0, currentNumber:0}
-    this.state = {currentNumber, numbers, appState}
+    this.state = {currentNumber, numbers, user, appState}
   }
 
   changeInputInts = (intA, intB) => {
@@ -61,6 +62,10 @@ export class HomeScreen extends Component{
   subtractNumbers = (intA , intB) => {
     this.changeInputInts(intA, intB)
     this.props.subtract(this.state.numbers)
+  }
+
+  getGrades = (user) => {
+    this.props.getGrades(this.state.user)
   }
 
 
@@ -95,6 +100,9 @@ export class HomeScreen extends Component{
           <Text style={styles.getStartedText}>
           UTADEO Login  Current number {this.props.currentNumber}
           </Text>
+          <Text style={styles.getStartedText}>
+          USER {this.props.currentNumber}
+          </Text>
         </View>
 
         <Input
@@ -125,17 +133,10 @@ export class HomeScreen extends Component{
          onPress={() =>  this.addNumbers(this.state.numbers.intA , this.state.numbers.intB)}
          title="add"
         />
+
         <Button
-         onPress={() =>  this.divideNumbers(this.props , this.state.numbers.intB)}
-         title="divide"
-        />
-        <Button
-         onPress={() =>  this.multiplyNumbers(this.state.numbers.intA , this.state.numbers.intB)}
-         title="multiply"
-        />
-        <Button
-         onPress={() =>  this.subtractNumbers(this.state.numbers.intA , this.state.numbers.intB)}
-         title="subtract"
+         onPress={() =>  this.getGrades(this.state.user)}
+         title="Mis Notas"
         />
         </View>
 
@@ -206,7 +207,9 @@ function handleHelpPress() {
 }
 const mapStateToProps = (state) => {
   return {
-    currentNumber: state.dummy.currentNumber
+    currentNumber: state.dummy.currentNumber,
+    user: state.grades.user,
+    grades: state.grades.grades
   }
 }
 
@@ -215,7 +218,8 @@ const mapDispatchToProps = (dispatch) => {
     add: (numbers) => dispatch(DummyActions.add(numbers)),
     multiply: (numbers) => dispatch(DummyActions.multiply(numbers)),
     divide: (numbers) => dispatch(DummyActions.divide(numbers)),
-    subtract: (numbers) => dispatch(DummyActions.subtract(numbers))
+    subtract: (numbers) => dispatch(DummyActions.subtract(numbers)),
+    getGrades:(user) => dispatch(GradesActions.getGrades(user))
   }
 }
 

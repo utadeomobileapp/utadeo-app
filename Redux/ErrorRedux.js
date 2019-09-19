@@ -6,7 +6,7 @@ import { createTypes } from 'reduxsauce'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  hadleError: ['error']
+  handleError: ['error']
 },{})
 
 export const ErrorTypes = createTypes(`
@@ -23,7 +23,7 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 export const handleError = (state, {error}) => {
-  console.warn(error);
+  console.warn(JSON.stringify(error));
   return state.merge({ error: error })}
 
 

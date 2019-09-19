@@ -7,6 +7,7 @@ export default {
   useReactotron: __DEV__,
   codepushStaging: false,
   hotwireDate: true,     // force today to be the day of the conf
+  hotwirePush: true,     // force push notifications to happen in 5 seconds
   getAPI: true,             // should app hit API server for data? (Turn off if we're using codepush)
-  useTestWDSL: __DEV__
+  devSOAPURL: __DEV__
 }

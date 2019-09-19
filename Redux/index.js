@@ -15,7 +15,8 @@ export default () => {
     userData: require('./UserRedux').reducer,
     schedule: require('./ScheduleRedux').reducer,
     grades: require('./GradesRedux').reducer,
-    dummy: require('./DummyRedux').reducer
+    dummy: require('./DummyRedux').reducer,
+    handleError: require('./ErrorRedux').reducer
   })
 
   return configureStore(rootReducer, rootSaga)
