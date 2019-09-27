@@ -8,7 +8,7 @@ const { Types, Creators } = createActions({
   setSelectedEvent: ['event'],
   clearSelectedEvent: null,
   updateSchedule: ['schedule'],
-  getScheduleUpdates: null
+  getScheduleUpdates: ['schedule']
 })
 
 export const ScheduleTypes = Types
@@ -18,6 +18,7 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   // TODO: initial state for schedule
   selectedEvent: null,
+  retrievedSchedule: null,
   userSchedule: null
 })
 
@@ -31,7 +32,10 @@ export const clearSelectedEvent = (state) => {
   return state.merge({ selectedEvent: null })
 }
 
-// Store API
+export const getScheduleUpdates = (state, { schedule }) => {
+  return state.merge({ retrievedSchedule: schedule })
+}
+
 export const updateSchedule = (state, { schedule }) => {
   return state.merge({ userSchedule: schedule })
 }
@@ -39,6 +43,6 @@ export const updateSchedule = (state, { schedule }) => {
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.RETRIEVE_SHEDULE]: retrieveSchedule,
+  [Types.RETRIEVE_SHEDULE]: getScheduleUpdates,
   [Types.UPDATE_SCHEDULE]: updateSchedule
 })
