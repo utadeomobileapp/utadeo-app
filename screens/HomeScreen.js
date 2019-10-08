@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
-import { Button, Input  } from 'react-native-elements';
+import { Button, Input, Icon   } from 'react-native-elements';
 
 export default function HomeScreen() {
   return (
@@ -46,8 +46,8 @@ export default function HomeScreen() {
           </Text>
         </View>
         <Input
-          placeholder='Username'
-          leftIcon={{ type: 'font-awesome', name: 'e-mail' }}
+          placeholder='Tadeo Mail'
+          leftIcon={{ type: 'font-awesome', name: 'envelope' }}
           />
         <Input
             placeholder='Password'
@@ -120,6 +120,7 @@ function handleHelpPress() {
     'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
   );
 }
+//TODO all styles should be used with SASS this has to change
 
 const styles = StyleSheet.create({
   container: {
