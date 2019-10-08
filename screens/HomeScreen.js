@@ -120,6 +120,7 @@ function handleHelpPress() {
     'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
   );
 }
+//TODO all styles should be used with SASS this has to change
 
 const styles = StyleSheet.create({
   container: {
