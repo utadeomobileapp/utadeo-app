@@ -1,3 +1,4 @@
+// expo imports
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
@@ -7,7 +8,25 @@ import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
 
+// redux imports
+import DebugConfig from './Config/DebugConfig'
+import ReactotronConfig from './Config/ReactotronConfig'
+import { RootContainer } from './containers/RootContainer'
+import { HomeScreen }  from './containers/HomeScreen'
+import createStore from './redux'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+
 export default function App(props) {
+
+  console.log("creating store");
+  // create our store
+  const {store, persistor} = createStore()
+
+
+  // Configure push notifications, passing store's dispatch
+  // see firebase
+
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
@@ -22,7 +41,12 @@ export default function App(props) {
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
+        <Provider store={store}>
+          <AppNavigator />
+          <PersistGate loading={null} persistor={persistor}>
+            <RootContainer />
+          </PersistGate>
+        </Provider>
       </View>
     );
   }

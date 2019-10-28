@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Image,
   Platform,
@@ -8,12 +8,75 @@ import {
   Text,
   TouchableOpacity,
   View,
+  AppState
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
 import { Button, Input, Icon   } from 'react-native-elements';
+import { connect } from 'react-redux'
+import DummyActions from '../redux/DummyRedux'
 
-export default function HomeScreen() {
+import {
+  merge,
+  groupWith,
+  contains,
+  assoc,
+  map,
+  sum,
+  findIndex
+} from 'ramda'
+
+export class HomeScreen extends Component{
+  constructor (props) {
+    super(props)
+
+    //const { currentNumber } = props {this.state.currentNumber}
+    const appState = AppState.currentState
+    var numbers = {intA:0 , intB:0}
+    const currentNumber = 0;
+    this.state = {currentNumber, numbers, appState}
+  }
+
+  changeInputInts = (intA, intB) => {
+    var  numbers = {intA:intA, intB:intB}
+    this.setState({
+      numbers: numbers
+    });
+  }
+
+  addNumbers = (intA , intB) => {
+    this.changeInputInts(intA, intB)
+    this.setState({
+      numbers: this.props.add(this.state.numbers)
+    });
+    console.log("after add "+ JSON.stringify(this.state.currentNumber)+" "+JSON.stringify(this.state.numbers));
+  }
+
+  divideNumbers = (intA , intB) => {
+    this.changeInputInts(intA, intB)
+    this.setState({
+      currentNumber: this.props.divide(this.state.numbers)
+    });
+    console.log("divide"+this.state.currentNumber);
+  }
+
+  multiplyNumbers = (intA , intB) => {
+    this.changeInputInts(intA, intB)
+    this.setState({
+      currentNumber: this.props.multiply(this.state.numbers)
+    });
+    console.log("multiply"+this.state.currentNumber);
+  }
+
+  subtractNumbers = (intA , intB) => {
+    this.changeInputInts(intA, intB)
+    this.setState({
+      currentNumber: this.props.subtract(this.state.numbers)
+    });
+    console.log("subtract"+this.state.currentNumber);
+  }
+
+  render () {
   return (
 
     <View style={styles.container}>
@@ -25,7 +88,7 @@ export default function HomeScreen() {
             source={
               __DEV__
                 ? require('../assets/images/Logo-UTADEO-horizontal.png')
-                : require('../assets/images/robot-prod.png')
+                : require('../assets/images/Logo-UTADEO-horizontal.png')
             }
             style={styles.welcomeImage}
           />
@@ -56,6 +119,36 @@ export default function HomeScreen() {
         <Button
           title="Login"
         />
+        <Input
+        onChangeText={(intA) => this.changeInputInts(intA, this.state.numbers.intB)}
+        keyboardType='numeric'
+          placeholder='int a'
+          leftIcon={{ type: 'font-awesome', name: 'subscript' }}
+          />
+        <Input
+        onChangeText={(intB) => this.changeInputInts(this.state.numbers.intA, intB)}
+        keyboardType='numeric'
+            placeholder='int b'
+            leftIcon={{ type: 'font-awesome', name: 'subscript' }}
+          />
+          <View style={styles.buttonCalculatorContainer}>
+        <Button
+         onPress={() =>  this.addNumbers(this.state.numbers.intA , this.state.numbers.intB)}
+         title="add"
+        />
+        <Button
+         onPress={() =>  this.divideNumbers(this.state.numbers.intA , this.state.numbers.intB)}
+         title="divide"
+        />
+        <Button
+         onPress={() =>  this.multiplyNumbers(this.state.numbers.intA , this.state.numbers.intB)}
+         title="multiply"
+        />
+        <Button
+         onPress={() =>  this.subtractNumbers(this.state.numbers.intA , this.state.numbers.intB)}
+         title="subtract"
+        />
+        </View>
 
         <View style={styles.helpContainer}>
           <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
@@ -80,11 +173,13 @@ export default function HomeScreen() {
       </View>
     </View>
   );
+  }
 }
 
 HomeScreen.navigationOptions = {
   header: null,
 };
+
 
 function DevelopmentModeNotice() {
   if (__DEV__) {
@@ -120,6 +215,25 @@ function handleHelpPress() {
     'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    numbers: state.numbers,
+    currentNumber: state.currentNumber
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    add: (numbers) => dispatch(DummyActions.add(numbers)),
+    multiply: (numbers) => dispatch(DummyActions.multiply(numbers)),
+    divide: (numbers) => dispatch(DummyActions.divide(numbers)),
+    subtract: (numbers) => dispatch(DummyActions.subtract(numbers))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
+
+
 //TODO all styles should be used with SASS this has to change
 
 const styles = StyleSheet.create({
@@ -208,5 +322,9 @@ const styles = StyleSheet.create({
   helpLinkText: {
     fontSize: 14,
     color: '#2e78b7',
+  },
+  buttonCalculatorContainer: {
+    alignItems: 'stretch',
+    marginHorizontal: 50,
   },
 });

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import configureStore from './CreateStore'
-import rootSaga from '../Sagas/'
-import AppNavigation from '../Navigation/AppNavigation'
+import rootSaga from '../sagas/'
+import AppNavigator from '../navigation/AppNavigator'
 
 const navReducer = (state, action) => {
-  const newState = AppNavigation.router.getStateForAction(action, state)
+  const newState = AppNavigator.router.getStateForAction(action, state)
   return newState || state
 }
 
@@ -14,8 +14,8 @@ export default () => {
     nav: navReducer,
     userData: require('./UserRedux').reducer,
     schedule: require('./ScheduleRedux').reducer,
-    grades: require('./GradesRedux'),
-    notifications: require('./NotificationRedux').reducer
+    grades: require('./GradesRedux').reducer,
+    dummy: require('./DummyRedux').reducer
   })
 
   return configureStore(rootReducer, rootSaga)

@@ -1,6 +1,7 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import DebugConfig from '../Config/DebugConfig'
+import { createTypes } from 'reduxsauce'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -9,7 +10,11 @@ const { Types, Creators } = createActions({
   updateGrades: ['grades']
 })
 
-export const GradesTypes = Types
+export const GradesTypes = createTypes(`
+    RETRIEVE_GRADES
+    UPDATE_GRADES
+    `, {}
+)
 export default Creators
 
 /* ------------- Initial State ------------- */
@@ -32,6 +37,6 @@ export const updateGrades = (state, { grades }) => {
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.RETRIEVE_GRADES]: getGradesUpdates,
-  [Types.UPDATE_GRADES]: updateGrades
+  [GradesTypes.RETRIEVE_GRADES]: getGradesUpdates,
+  [GradesTypes.UPDATE_GRADES]: updateGrades
 })

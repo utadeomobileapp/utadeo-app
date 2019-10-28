@@ -1,41 +1,43 @@
-import { takeLatest } from 'redux-saga/effects'
+import { takeLatest, all } from 'redux-saga/effects'
 
 /* ------------- Types ------------- */
 
-import { StartupTypes } from '../Redux/StartupRedux'
-import { ScheduleTypes } from '../Redux/ScheduleRedux'
-import { GradesTypes } from '../Redux/GradesRedux'
+import { StartupTypes } from '../redux/StartupRedux'
+import { ScheduleTypes } from '../redux/ScheduleRedux'
+import { GradesTypes } from '../redux/GradesRedux'
+import { DummyTypes} from '../redux/DummyRedux'
 
 /* ------------- Sagas ------------- */
 //TODO config sagas
-import { startup } from './StartupSagas'
-import { trackCurrentTime } from './ScheduleSagas'
-import { getScheduleUpdates } from './ScheduleUpdateSagas'
-import { getNearbyUpdates } from './GradesSagas'
+import { addSaga, divideSaga, subtractSaga, multiplySaga } from './DummySagas'
 
 /* ------------- API ------------- */
-//TODO API should be transormed into soap calls
-import API from '../Services/Api'
+//TODO API should be transormed into soap calls import API from '../Services/Api'
 import DebugConfig from '../Config/DebugConfig'
 // const api = API.create()
 
 // The API we use is only used from Sagas, so we create it here and pass along
 // to the sagas which need it.
-const api = DebugConfig.useFixtures ? FixtureAPI : API.create()
+//const api = DebugConfig.useFixtures ? FixtureAPI : API.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
 export default function * root () {
   let sagaIndex = [
     // some sagas only receive an action
-    takeLatest(StartupTypes.STARTUP, startup)
+    //takeLatest(StartupTypes.STARTUP, startup)// 2 redux
+    takeLatest(DummyTypes.ADD,  addSaga),
+    takeLatest(DummyTypes.DIVIDE,  divideSaga),
+    takeLatest(DummyTypes.SUBTRACT,  subtractSaga),
+    takeLatest(DummyTypes.MULTIPLY,  multiplySaga)
   ]
 
   // debug conditional API calls
   if (DebugConfig.getAPI) {
-    sagaIndex.push(takeLatest(ScheduleTypes.GET_SCHEDULE_UPDATES, getScheduleUpdates, api))
-    sagaIndex.push(takeLatest(LocationTypes.GET_NEARBY_UPDATES, getNearbyUpdates, api))
+    //sagaIndex.push(takeLatest(ScheduleTypes.GET_SCHEDULE_UPDATES, getScheduleUpdates, api))
+    //sagaIndex.push(takeLatest(LocationTypes.GET_NEARBY_UPDATES, getNearbyUpdates, api))
   }
 
-  yield sagaIndex
+
+  yield all(sagaIndex)
 }
