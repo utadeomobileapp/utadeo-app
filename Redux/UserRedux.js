@@ -6,38 +6,37 @@ import { createTypes } from 'reduxsauce'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  updateSchedule: ['schedule'],
-  getScheduleUpdates: ['schedule']
+  getUser: ['user'],
+  updateUser: ['user']
 })
 
-export const ScheduleTypes = createTypes(`
-    RETRIEVE_SHEDULE
-    UPDATE_SCHEDULE
+export const UserTypes = createTypes(`
+    RETRIEVE_USER
+    UPDATE_USER
     `, {}
 )
-
 export default Creators
 
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = Immutable({
-  // TODO: initial state for schedule
-  retrievedSchedule: null,
-  currentSchedule: null
+  // TODO: initial state for user
+  retrievedUser: null,
+  currentUser: null
 })
 
 /* ------------- Reducers ------------- */
 
-export const getScheduleUpdates = (state, { schedule }) => {
-  return state.merge({ retrievedSchedule: schedule })
+export const getUser = (state, { user }) => {
+  return state.merge({ retrievedUser: user })
 }
 
-export const updateSchedule = (state, { schedule }) => {
-  return state.merge({ currentSchedule: schedule })
+export const updateUser = (state, { user }) => {
+  return state.merge({ currentUser: user })
 }
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [ScheduleTypes.RETRIEVE_SHEDULE]: getScheduleUpdates,
-  [ScheduleTypes.UPDATE_SCHEDULE]: updateSchedule
+  [UserTypes.RETRIEVE_USER]: getUser,
+  [UserTypes.UPDATE_USER]: updateUser
 })

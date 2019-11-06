@@ -6,38 +6,39 @@ import { createTypes } from 'reduxsauce'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  updateSchedule: ['schedule'],
-  getScheduleUpdates: ['schedule']
-})
+  add: ['numbers'],
+  divide: ['numbers'],
+  subtract: ['numbers'],
+  multiply: ['numbers'],
+  retrieveResult:['retrievedResult']
+},{})
 
-export const ScheduleTypes = createTypes(`
-    RETRIEVE_SHEDULE
-    UPDATE_SCHEDULE
+export const DummyTypes = createTypes(`
+    ADD
+    DIVIDE
+    MULTIPLY
+    SUBTRACT
+    RETRIEVE_RESULT
     `, {}
 )
-
 export default Creators
 
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = Immutable({
-  // TODO: initial state for schedule
-  retrievedSchedule: null,
-  currentSchedule: null
+  // TODO: initial state for dummy numbers
+  numbers: null,
+  currentNumber: 0
 })
 
 /* ------------- Reducers ------------- */
 
-export const getScheduleUpdates = (state, { schedule }) => {
-  return state.merge({ retrievedSchedule: schedule })
+export const retrieveResult = (state, {retrievedResult}) => {
+  return state.merge({ currentNumber: retrievedResult })
 }
 
-export const updateSchedule = (state, { schedule }) => {
-  return state.merge({ currentSchedule: schedule })
-}
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [ScheduleTypes.RETRIEVE_SHEDULE]: getScheduleUpdates,
-  [ScheduleTypes.UPDATE_SCHEDULE]: updateSchedule
+  [DummyTypes.RETRIEVE_RESULT]: retrieveResult
 })
