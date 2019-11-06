@@ -1,4 +1,3 @@
-//import { soap } from 'strong-soap'
 var parseString = require('react-native-xml2js').parseString;
 
 var url = 'http://www.dneonline.com/calculator.asmx?wsdl';
@@ -28,8 +27,8 @@ export function * add (numbers) {
         this.responseAdd = result.AddResult
       });
     } else {
-      if(__DEV__){console.warn('error');;}
       this.responseAdd = request.responseText
+      if(__DEV__){console.warn('error '+ this.responseAdd);;}
     }
   };
   request.setRequestHeader('Content-Type','text/xml')

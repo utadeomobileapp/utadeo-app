@@ -30,10 +30,9 @@ export class HomeScreen extends Component{
   constructor (props) {
     super(props)
 
-    //const { currentNumber } = props {this.state.currentNumber}
+    const { currentNumber } = props
     const appState = AppState.currentState
-    var numbers = {intA:0 , intB:0}
-    const currentNumber = 0;
+    var numbers = {intA:0 , intB:0, currentNumber:0}
     this.state = {currentNumber, numbers, appState}
   }
 
@@ -46,35 +45,24 @@ export class HomeScreen extends Component{
 
   addNumbers = (intA , intB) => {
     this.changeInputInts(intA, intB)
-    this.setState({
-      numbers: this.props.add(this.state.numbers)
-    });
-    console.log("after add "+ JSON.stringify(this.state.currentNumber)+" "+JSON.stringify(this.state.numbers));
+    this.props.add(this.state.numbers)
   }
 
   divideNumbers = (intA , intB) => {
     this.changeInputInts(intA, intB)
-    this.setState({
-      currentNumber: this.props.divide(this.state.numbers)
-    });
-    console.log("divide"+this.state.currentNumber);
+    this.props.divide(this.state.numbers)
   }
 
   multiplyNumbers = (intA , intB) => {
     this.changeInputInts(intA, intB)
-    this.setState({
-      currentNumber: this.props.multiply(this.state.numbers)
-    });
-    console.log("multiply"+this.state.currentNumber);
+    this.props.multiply(this.state.numbers)
   }
 
   subtractNumbers = (intA , intB) => {
     this.changeInputInts(intA, intB)
-    this.setState({
-      currentNumber: this.props.subtract(this.state.numbers)
-    });
-    console.log("subtract"+this.state.currentNumber);
+    this.props.subtract(this.state.numbers)
   }
+
 
   render () {
   return (
@@ -105,9 +93,10 @@ export class HomeScreen extends Component{
           </View>
 
           <Text style={styles.getStartedText}>
-          UTADEO Login
+          UTADEO Login  Current number {this.props.currentNumber}
           </Text>
         </View>
+
         <Input
           placeholder='Tadeo Mail'
           leftIcon={{ type: 'font-awesome', name: 'envelope' }}
@@ -137,7 +126,7 @@ export class HomeScreen extends Component{
          title="add"
         />
         <Button
-         onPress={() =>  this.divideNumbers(this.state.numbers.intA , this.state.numbers.intB)}
+         onPress={() =>  this.divideNumbers(this.props , this.state.numbers.intB)}
          title="divide"
         />
         <Button
@@ -217,8 +206,7 @@ function handleHelpPress() {
 }
 const mapStateToProps = (state) => {
   return {
-    numbers: state.numbers,
-    currentNumber: state.currentNumber
+    currentNumber: state.dummy.currentNumber
   }
 }
 

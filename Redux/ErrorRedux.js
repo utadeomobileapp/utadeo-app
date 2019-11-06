@@ -6,39 +6,29 @@ import { createTypes } from 'reduxsauce'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  add: ['numbers'],
-  divide: ['numbers'],
-  subtract: ['numbers'],
-  multiply: ['numbers'],
-  retrieveResult:['retrievedResult']
+  hadleError: ['error']
 },{})
 
-export const DummyTypes = createTypes(`
-    ADD
-    DIVIDE
-    MULTIPLY
-    SUBTRACT
-    RETRIEVE_RESULT
+export const ErrorTypes = createTypes(`
+    HANDLE_ERROR
     `, {}
 )
 export default Creators
 
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = Immutable({
-  // TODO: initial state for dummy numbers
-  numbers: null,
-  currentNumber: 0
+  error: null
 })
 
 /* ------------- Reducers ------------- */
 
-export const retrieveResult = (state, {retrievedResult}) => {
-  return state.merge({ currentNumber: retrievedResult })
-}
+export const handleError = (state, {error}) => {
+  console.warn(error);
+  return state.merge({ error: error })}
 
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [DummyTypes.RETRIEVE_RESULT]: retrieveResult
+  [ErrorTypes.HANDLE_ERROR]: handleError
 })
