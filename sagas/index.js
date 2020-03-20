@@ -10,6 +10,7 @@ import { DummyTypes} from '../redux/DummyRedux'
 /* ------------- Sagas ------------- */
 //TODO config sagas
 import { addSaga, divideSaga, subtractSaga, multiplySaga } from './DummySagas'
+import {getGradesSaga } from './GradesSagas'
 
 /* ------------- API ------------- */
 //TODO API should be transormed into soap calls import API from '../Services/Api'
@@ -29,7 +30,8 @@ export default function * root () {
     takeLatest(DummyTypes.ADD,  addSaga),
     takeLatest(DummyTypes.DIVIDE,  divideSaga),
     takeLatest(DummyTypes.SUBTRACT,  subtractSaga),
-    takeLatest(DummyTypes.MULTIPLY,  multiplySaga)
+    takeLatest(DummyTypes.MULTIPLY,  multiplySaga),
+    takeLatest(GradesTypes.GET_GRADES, getGradesSaga)
   ]
 
   // debug conditional API calls

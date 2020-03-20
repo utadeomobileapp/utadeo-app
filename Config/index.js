@@ -1,5 +1,6 @@
 import { Text } from 'react-native'
 import DebugConfig from './DebugConfig'
+import './PushConfig'
 import './CodePushConfig'
 
 // Allow/disallow font-scaling in app

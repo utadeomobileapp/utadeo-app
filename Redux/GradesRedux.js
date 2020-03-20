@@ -6,12 +6,12 @@ import { createTypes } from 'reduxsauce'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  getGradesUpdates: ['grades'],
+  getGrades: ['user'],
   updateGrades: ['grades']
 })
 
 export const GradesTypes = createTypes(`
-    RETRIEVE_GRADES
+    GET_GRADES
     UPDATE_GRADES
     `, {}
 )
@@ -19,16 +19,11 @@ export default Creators
 
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = Immutable({
-  // TODO: initial state for grades
-  retrievedGrades: null,
+  // TODO: initial state for grades as an JSON object
   currentGrades: null
 })
 
 /* ------------- Reducers ------------- */
-
-export const getGradesUpdates = (state, { grades }) => {
-  return state.merge({ retrievedGrades: grades })
-}
 
 export const updateGrades = (state, { grades }) => {
   return state.merge({ currentGrades: grades })
@@ -37,6 +32,5 @@ export const updateGrades = (state, { grades }) => {
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [GradesTypes.RETRIEVE_GRADES]: getGradesUpdates,
   [GradesTypes.UPDATE_GRADES]: updateGrades
 })
